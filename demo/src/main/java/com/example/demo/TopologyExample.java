@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class TopologyExample {
     public Topology createTypology(){
         StreamsBuilder builder = new StreamsBuilder();
-        KStream<String, String> textLines = builder.stream("word-count-input");
+        KStream<String, String> textLines = builder.stream("word-count-input4");
 
         KTable<String, Long> wordCounts = textLines
                 .flatMapValues(value -> Arrays.asList(value.split(" ")))
@@ -26,7 +26,7 @@ public class TopologyExample {
                 .peek((k,v)->log.info("2k="+k+"2v="+v))
                 .foreach((word, count) -> System.out.println("word: " + word + " -> " + count));
 
-        String outputTopic = "word-count-output";
+        String outputTopic = "word-count-output4";
         wordCounts.toStream()
                 .to(outputTopic, Produced.with(Serdes.String(), Serdes.Long()));
 
